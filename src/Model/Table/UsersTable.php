@@ -56,17 +56,17 @@ class UsersTable extends Table
     {
         $validator
             ->email('email')
-            ->allowEmptyString('email');
+            ->notEmpty('email', 'Eメールを設定してください');
 
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
-            ->allowEmptyString('password');
+            ->notEmpty('password', 'パスワードを設定してください');
 
         $validator
             ->scalar('role')
             ->maxLength('role', 20)
-            ->allowEmptyString('role');
+            ->notEmpty('role', 'A role is required');
 
         return $validator;
     }
