@@ -18,7 +18,9 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->set('users', $this->Users->find('all'));
+        $users = $this->paginate($this->Users);
+
+        $this->set(compact('users'));
     }
 
     /**
@@ -30,7 +32,10 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+
         $this->set(compact('user'));
     }
 
