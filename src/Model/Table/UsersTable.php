@@ -54,21 +54,14 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->email('email')
-            ->allowEmptyString('email');
-
-        $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->allowEmptyString('password');
-
-        $validator
-            ->scalar('role')
-            ->maxLength('role', 20)
-            ->allowEmptyString('role');
-
-        return $validator;
+        return $validator
+            ->notEmpty('username', 'A username is required')
+            ->notEmpty('password', 'A password is required')
+            ->notEmpty('role', 'A role is required')
+            ->add('role', 'inList', [
+                'rule' => ['inList', ['admin', 'author']],
+                'message' => 'Please enter a valid role'
+            ]);
     }
 
     /**
@@ -80,8 +73,8 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
-
+        $rules->add($rules->isUnique(['username']));
+ 
         return $rules;
     }
 }
