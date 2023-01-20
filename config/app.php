@@ -114,6 +114,7 @@ return [
             'serialize' => true,
             'duration' => '+1 years',
             'url' => env('CACHE_CAKECORE_URL', null),
+            "mask" => 0666,
         ],
 
         /*
@@ -129,6 +130,7 @@ return [
             'serialize' => true,
             'duration' => '+1 years',
             'url' => env('CACHE_CAKEMODEL_URL', null),
+            "mask" => 0666,
         ],
 
         /*

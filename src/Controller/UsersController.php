@@ -11,6 +11,9 @@ namespace App\Controller;
  */
 class UsersController extends AppController
 {
+    public $paginate = [
+		'limit' => 5 // 1ページに表示するデータ件数
+	];
     /**
      * Index method
      *
@@ -46,8 +49,10 @@ class UsersController extends AppController
      */
     public function add()
     {
+        // 空のエンティティつくる
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
+            // post送信されてきた値を空のエンティティに詰め込む
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
@@ -103,8 +108,13 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * loginページでは、認証画面で行われた認証処理が成功すれば、indexページへ、
+     * そうでなければエラーメッセージが表示されるようになっています
+     */
     public function login()
     {
+
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
