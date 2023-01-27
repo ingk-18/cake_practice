@@ -49,17 +49,18 @@ class MemosTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Memos', [
-            'foreignKey' => 'memo_id',
-            'joinType' => 'INNER',
-        ]);
+        //多分いらない
+        // $this->belongsTo('Memos', [
+        //     'foreignKey' => 'memo_id',
+        //     'joinType' => 'INNER',
+        // ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('Memos', [
-            'foreignKey' => 'memo_id',
-        ]);
+        // $this->hasMany('Memos', [
+        //     'foreignKey' => 'memo_id',
+        // ]);
     }
 
     /**
@@ -85,16 +86,17 @@ class MemosTable extends Table
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
+    // /**
+    //  * Returns a rules checker object that will be used for validating
+    //  * application integrity.
+    //  *
+    //  * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+    //  * @return \Cake\ORM\RulesChecker
+    //  */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('memo_id', 'Memos'), ['errorField' => 'memo_id']);
+        //外部レコードに該当する値があるかチェックしている設定ミスなのでコメントアウト
+        // $rules->add($rules->existsIn('memo_id', 'Memos'), ['errorField' => 'memo_id']);
         $rules->add($rules->existsIn('user_id', 'Users'), ['errorField' => 'user_id']);
 
         return $rules;

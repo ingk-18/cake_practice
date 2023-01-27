@@ -18,12 +18,27 @@ class MemosController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $memos = $this->paginate($this->Memos);
 
-        $this->set(compact('memos'));
+        
+        if ($this->request->getData('message')) {
+            $params = [];
+            $params['message'] = $this->request->getData('message');
+            $params['memo_id'] = '3';
+            $params['user_id'] = '3';
+
+            $tblMemos = $this->Memos;
+
+            $entMemo =  $tblMemos->newEntity($params, ['validate' => false]);
+
+            if($tblMemos->save($entMemo,false)){
+                echo 'せいこう';
+            }else{
+                debug($entMemo->getErrors());
+            }
+
+        }
+
+
     }
 
     /**

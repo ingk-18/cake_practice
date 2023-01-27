@@ -35,7 +35,7 @@ class Memo extends Entity
         'message' => true,
         'created' => true,
         'modified' => true,
-        'memos' => true,
-        'user' => true,
+        // 'memos' => true,
+        // 'user' => true,
     ];
 }

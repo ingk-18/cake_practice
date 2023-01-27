@@ -50,7 +50,7 @@ class AppController extends Controller
         $this->loadComponent('Auth', [
             //ログイン後は以下にリダイレクトかかる
             'loginRedirect' => [
-                'controller' => 'Users',
+                'controller' => 'Memos',
                 'action' => 'index'
             ],
             //ログアウト後は以下にリダイレクトかかる
