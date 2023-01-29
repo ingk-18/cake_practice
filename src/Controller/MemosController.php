@@ -16,28 +16,28 @@ class MemosController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index($id = null)
     {
-
+        $params['user_id'] = $id;
         
         if ($this->request->getData('message')) {
-            $params = [];
             $params['message'] = $this->request->getData('message');
-            $params['memo_id'] = '3';
-            $params['user_id'] = '3';
+            $params['memo_id'] = '1';
+            
 
             $tblMemos = $this->Memos;
 
             $entMemo =  $tblMemos->newEntity($params, ['validate' => false]);
 
             if($tblMemos->save($entMemo,false)){
-                echo 'せいこう';
+                return $this->redirect(['controller' => 'Memos', 'action' => 'confirm', $params['user_id']]);
             }else{
                 debug($entMemo->getErrors());
             }
 
         }
 
+        $this->set(compact('params'));
 
     }
 
@@ -48,11 +48,12 @@ class MemosController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function confirm($id = null)
     {
-        $memo = $this->Memos->get($id, [
-            'contain' => ['Users', 'Memos'],
-        ]);
+        $memo = $this->Memos->find('DefaultMemos')
+            ->where([
+                'Users.id' => $id
+            ]);
 
         $this->set(compact('memo'));
     }

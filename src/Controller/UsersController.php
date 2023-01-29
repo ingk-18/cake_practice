@@ -19,7 +19,7 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index($id = null)
     {
         $users = $this->paginate($this->Users);
 
@@ -49,15 +49,19 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $tblUsers = $this->Users;
         // 空のエンティティつくる
-        $user = $this->Users->newEmptyEntity();
+        $user = $tblUsers->newEmptyEntity();
+        
         if ($this->request->is('post')) {
             // post送信されてきた値を空のエンティティに詰め込む
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
+            $user = $tblUsers->patchEntity($user, $this->request->getData());
+            if ($tblUsers->save($user)) {
+                // $id = $user->id;
+                // dd($id);
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Memos', 'action' => 'index', $user->id]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }

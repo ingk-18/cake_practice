@@ -11,7 +11,7 @@
         <table>
 
             <tbody>
-                <?= $this->Form->create(null, ['type' => 'post','url' => ['action' => 'index']]); ?>
+                <?= $this->Form->create(null, ['type' => 'post','url' => ['action' => 'index', $params['user_id'] ?? null]]); ?>
 
 
                 <?= $this->Form->textarea('message', ['rows' => '5', 'cols' => '5']); ?>

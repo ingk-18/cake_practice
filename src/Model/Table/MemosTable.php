@@ -101,4 +101,12 @@ class MemosTable extends Table
 
         return $rules;
     }
+
+    public function findDefaultMemos(Query $query, array $options){
+		return $this->find()->contain(['Users']);
+    }
+
+    // public function findSearch(Query $query, array $options){
+	// 	if (empty($options['id']) === false) $where[$alias.'.id'] = $options['id'];
+    // }
 }
