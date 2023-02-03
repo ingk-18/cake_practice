@@ -19,41 +19,26 @@ class MemosController extends AppController
     public function index($id = null)
     {
         $params['user_id'] = $id;
-        $params['title'] = 'メモ1ページ';
+        $params['number'] = $this->request->getQuery('count') ?? 1;
+        $params['title'] = 'メモ'.$params['number'].'ページ';
         
         if ($this->request->getData('message')) {
-            return $this->redirect(['controller' => 'Memos', 'action' => 'show2', $params['user_id']]);
-        }
-
-        $this->set(compact('params'));
-    }
-
-        public function index2($id = null)
-    {
-        $params['user_id'] = $id;
-        $params = 'メモ2ページ';
-
-        
-        if ($this->request->getData('message')) {
-            $params['message'] = $this->request->getData('message');
-            $params['memo_id'] = '1';
             
-
-            $tblMemos = $this->Memos;
-
-            $entMemo =  $tblMemos->newEntity($params, ['validate' => false]);
-
-            if($tblMemos->save($entMemo,false)){
-                return $this->redirect(['controller' => 'Memos', 'action' => 'show', $params['user_id']]);
-            }else{
-                debug($entMemo->getErrors());
+            $session = $this->getRequest()->getSession();
+            $session->write('test'.$params['number'], $this->request->getData('message'));
+            
+            ++$params['number'];
+            $params['title'] = 'メモ'.$params['number'].'ページ';
+            
+            if( $params['number'] >= 4 ){
+                return $this->redirect(['action' => 'show', $params['user_id']]);
             }
-
         }
-
+        
         $this->set(compact('params'));
     }
-
+    
+    
     /**
      * View method
      *
@@ -63,6 +48,8 @@ class MemosController extends AppController
      */
     public function show($id = null)
     {
+        $session = $this->getRequest()->getSession();
+        dd($session->read());
         $params['user_id'] = $id;
         $params['title'] = 'メモ1ページ';
         
