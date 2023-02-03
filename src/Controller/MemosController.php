@@ -19,6 +19,20 @@ class MemosController extends AppController
     public function index($id = null)
     {
         $params['user_id'] = $id;
+        $params['title'] = 'メモ1ページ';
+        
+        if ($this->request->getData('message')) {
+            return $this->redirect(['controller' => 'Memos', 'action' => 'show2', $params['user_id']]);
+        }
+
+        $this->set(compact('params'));
+    }
+
+        public function index2($id = null)
+    {
+        $params['user_id'] = $id;
+        $params = 'メモ2ページ';
+
         
         if ($this->request->getData('message')) {
             $params['message'] = $this->request->getData('message');
@@ -30,7 +44,7 @@ class MemosController extends AppController
             $entMemo =  $tblMemos->newEntity($params, ['validate' => false]);
 
             if($tblMemos->save($entMemo,false)){
-                return $this->redirect(['controller' => 'Memos', 'action' => 'confirm', $params['user_id']]);
+                return $this->redirect(['controller' => 'Memos', 'action' => 'show', $params['user_id']]);
             }else{
                 debug($entMemo->getErrors());
             }
@@ -38,7 +52,38 @@ class MemosController extends AppController
         }
 
         $this->set(compact('params'));
+    }
 
+    /**
+     * View method
+     *
+     * @param string|null $id Memo id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function show($id = null)
+    {
+        $params['user_id'] = $id;
+        $params['title'] = 'メモ1ページ';
+        
+        if ($this->request->getData('message')) {
+            $params['message'] = $this->request->getData('message');
+            $params['memo_id'] = '1';
+            
+
+            $tblMemos = $this->Memos;
+
+            $entMemo =  $tblMemos->newEntity($params, ['validate' => false]);
+
+            if($tblMemos->save($entMemo,false)){
+                return $this->redirect(['controller' => 'Memos', 'action' => 'show2', $params['user_id']]);
+            }else{
+                debug($entMemo->getErrors());
+            }
+
+        }
+
+        $this->set(compact('params'));
     }
 
     /**
