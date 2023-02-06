@@ -13,25 +13,25 @@ class MemosController extends AppController
 {
     /**
      * Index method
-     *
+     * メモ4ページ（count = 4）になるとshowへ行く
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index($id = null)
     {
         $params['user_id'] = $id;
-        $params['number'] = $this->request->getQuery('count') ?? 1;
-        $params['title'] = 'メモ'.$params['number'].'ページ';
+        $params['count'] = $this->request->getQuery('count') ?? 1;
+        $params['title'] = 'メモ'.$params['count'].'ページ';
         
         if ($this->request->getData('message')) {
             
             $session = $this->getRequest()->getSession();
-            $session->write('test'.$params['number'], $this->request->getData('message'));
+            $session->write('test'.$params['count'], $this->request->getData('message'));
             
-            ++$params['number'];
-            $params['title'] = 'メモ'.$params['number'].'ページ';
+            ++$params['count'];
+            $params['title'] = 'メモ'.$params['count'].'ページ';
             
-            if( $params['number'] >= 4 ){
-                return $this->redirect(['action' => 'show', $params['user_id']]);
+            if( $params['count'] >= 4 ){
+                return $this->redirect(['action' => 'show', $params['user_id'], '?' => ['count' => $params['count']]]);
             }
         }
         
@@ -49,11 +49,14 @@ class MemosController extends AppController
     public function show($id = null)
     {
         $session = $this->getRequest()->getSession();
-        dd($session->read());
+        // dd($session->read('test1'));
+        $this->set('memos', $session->read());
+
+        $count = $this->request->getQuery('count');
+
         $params['user_id'] = $id;
-        $params['title'] = 'メモ1ページ';
         
-        if ($this->request->getData('message')) {
+        if ($this->request->getData('???????')) {
             $params['message'] = $this->request->getData('message');
             $params['memo_id'] = '1';
             
@@ -67,10 +70,9 @@ class MemosController extends AppController
             }else{
                 debug($entMemo->getErrors());
             }
-
         }
 
-        $this->set(compact('params'));
+        $this->set(compact('params', 'count'));
     }
 
     /**

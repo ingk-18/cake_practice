@@ -4,19 +4,22 @@
  * @var \App\Model\Entity\Memo $memo
  */
 ?>
-<div class="row">
-    <div class="related">
-        <div class="row">
-            <dl>
-                <?php foreach($memo as $memo){ ?>
-                    <dt>ユーザーID</dt>
-                    <li><?= $memo->user->id; ?></li>
-                    <dt>ユーザー名</dt>
-                    <li><?= $memo->user->username; ?></li>
-                    <dt>メッセージ</dt>
-                    <li><?= $memo->message; ?></li>
-                    <?php } ?>
-            </dl>
-        </div>
+
+<?php var_dump($memos) ?>
+<?php for ($i = 1; $i <= $count -1; $i++) { ?>    
+    <div class="memos index content">
+    <h3><?= '質問'.$i ?></h3>
+    <p>あああああああああああああああああああああああああああああああああああああああああああああああ</p>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr><th>memo</th></tr>
+            </thead>
+            <tbody>
+                <tr><th><?= $memos['test'.$i] ?></th></tr>
+            </tbody>
+        </table>
     </div>
 </div>
+<p>　</p>
+<?php } ?>
