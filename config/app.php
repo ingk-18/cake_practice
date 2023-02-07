@@ -422,5 +422,14 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'cookie' => 'CAKEPHP', // デフォルト
+        'timeout' => 4320, // 3days
+        'cookieTimeout'=> 4320, // 3days
+        // iniファイルの設定追記
+        'ini' => [
+            'session.cookie_lifetime' => 1800, // ページに訪問せず30分経つとクッキーを無効
+            'session.gc_divisor' => 1000,
+            'session.cookie_httponly' => true
+            ]
     ],
 ];
