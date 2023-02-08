@@ -52,6 +52,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </main>
     <footer>
+        <h3 class='footer-h3'>最後から考えるアプリ</h1>
     </footer>
 </body>
 </html>

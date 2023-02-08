@@ -9,7 +9,7 @@
 <?php for ($i = 1; $i <= $count -1; $i++) { ?>    
     <div class="memos index content">
     <h3><?= '質問'.$i ?></h3>
-    <p>あああああああああああああああああああああああああああああああああああああああああああああああ</p>
+    <p>今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日</p>
     <div class="table-responsive">
         <table>
             <thead>

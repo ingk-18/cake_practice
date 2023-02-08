@@ -198,6 +198,18 @@ th {
     justify-content: center;
 }
 
+/* ココから追加 */
+footer {
+    height: 350px;
+    background-color: rgb(225, 240, 247);
+}
+
+.footer-h3{
+    color: #173494;
+    text-align: center;
+    padding: 20px;
+}
+
 @media screen and (max-width: 640px) {
     .top-nav {
         margin: 0 auto;
