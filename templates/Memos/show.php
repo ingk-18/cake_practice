@@ -5,7 +5,6 @@
  */
 ?>
 
-<?php var_dump($memos) ?>
 <?php for ($i = 1; $i <= $count -1; $i++) { ?>    
     <div class="memos index content">
     <h3><?= '質問'.$i ?></h3>
@@ -23,3 +22,13 @@
 </div>
 <p>　</p>
 <?php } ?>
+<div>
+    <?= $this->Form->create(null, [
+        'type' => 'post',
+        'url' => ['action' => 'show', $params['user_id'] ?? null, 
+        '?' => ['count' => $params['count'] ?? 1]]
+    ]); ?>
+
+    <?= $this->Form->button('保存する', ['type' => 'submit']); ?>
+    <?= $this->Form->end() ?>
+</div>
