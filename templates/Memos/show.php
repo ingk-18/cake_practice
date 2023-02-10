@@ -15,7 +15,7 @@
                 <tr><th>memo</th></tr>
             </thead>
             <tbody>
-                <tr><th><?= $memos['test'.$i] ?></th></tr>
+                <tr><th><?= $memos['memo'.$i] ?></th></tr>
             </tbody>
         </table>
     </div>
