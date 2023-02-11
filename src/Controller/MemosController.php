@@ -22,7 +22,7 @@ class MemosController extends AppController
         $params['count'] = $this->request->getQuery('count') ?? 1;
         $params['title'] = 'メモ'.$params['count'].'ページ';
         
-        if ($this->request->getData('message')) {
+        if ($this->request->getData('message')) {//登録時の処理
             
             $session = $this->getRequest()->getSession();
             $session->write('memo'.$params['count'], $this->request->getData('message'));
@@ -50,12 +50,13 @@ class MemosController extends AppController
     {
         $session = $this->getRequest()->getSession();
         $sessionParams = $session->read();
-        // dd($sessionParams);
+        dd($sessionParams);
         $this->set('memos', $sessionParams);
 
         $count = $this->request->getQuery('count');
 
         $params['user_id'] = $id;
+        // $this->Flash->error('指定した商品は存在しないか、削除されているなどの理由で編集できない商品です。');
         
         if ($this->request->is('post')) {
             for ($i = 1; $i <= 5; $i++) {//適当に５にしてある
@@ -63,12 +64,13 @@ class MemosController extends AppController
                     $registParams['message'] = $sessionParams['memo'.$i];
                     $registParams['memo_id'] = $i;
                     $registParams['user_id'] = $id;
-
+                    
                     $tblMemos = $this->Memos;
                     $entMemo =  $tblMemos->newEntity($registParams, ['validate' => false]);
-        
+                    
                     try{
                         $tblMemos->save($entMemo,false);
+                        $session->delete('memo'.$i);
                         
                     }catch( \Exception $e ){
                         // $this->Flash->error( \App\Lib\Messages::get(3) );

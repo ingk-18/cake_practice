@@ -6,7 +6,7 @@
 ?>
 
 <?php for ($i = 1; $i <= $count -1; $i++) { ?>    
-    <div class="memos index content">
+<div class="memos index content">
     <h3><?= '質問'.$i ?></h3>
     <p>今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日今日は最後の日</p>
     <div class="table-responsive">
@@ -19,6 +19,11 @@
             </tbody>
         </table>
     </div>
+    <div>
+    <?= $this->Form->create(null, ['type' => 'get','url' => ['action' => 'index','?' => ['count' => $i]]]); ?>
+    <?= $this->Form->button('修正する', ['type' => 'submit']); ?>
+    <?= $this->Form->end() ?>
+</div>
 </div>
 <p>　</p>
 <?php } ?>
