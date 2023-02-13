@@ -20,10 +20,10 @@
         </table>
     </div>
     <div>
-    <?= $this->Form->create(null, ['type' => 'get','url' => ['action' => 'index','?' => ['count' => $i]]]); ?>
-    <?= $this->Form->button('修正する', ['type' => 'submit']); ?>
-    <?= $this->Form->end() ?>
-</div>
+        <?= $this->Form->create(null, ['type' => 'post', 'url' => ['action' => 'index', '?' => ['count' => $i]]]); ?>
+        <?= $this->Form->button('修正する', ['type' => 'submit', 'name' => 'edit']); ?>
+        <?= $this->Form->end() ?>
+    </div>
 </div>
 <p>　</p>
 <?php } ?>
@@ -33,7 +33,6 @@
         'url' => ['action' => 'show', $params['user_id'] ?? null, 
         '?' => ['count' => $params['count'] ?? 1]]
     ]); ?>
-
-    <?= $this->Form->button('保存する', ['type' => 'submit']); ?>
+    <?= $this->Form->button('保存する', ['type' => 'submit', 'name' => 'regist']); ?>
     <?= $this->Form->end() ?>
 </div>

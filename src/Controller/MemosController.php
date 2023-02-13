@@ -21,8 +21,13 @@ class MemosController extends AppController
         $params['user_id'] = $id;
         $params['count'] = $this->request->getQuery('count') ?? 1;
         $params['title'] = 'メモ'.$params['count'].'ページ';
+
+        //editの場合
+        $session = $this->getRequest()->getSession();
+        $memo = $session->read('memo'.$params['count']);
+        // dd($memo);
         
-        if ($this->request->getData('message')) {//登録時の処理
+        if ($this->request->getData('memo')) {//登録時の処理
             
             $session = $this->getRequest()->getSession();
             $session->write('memo'.$params['count'], $this->request->getData('message'));
@@ -35,7 +40,7 @@ class MemosController extends AppController
             }
         }
         
-        $this->set(compact('params'));
+        $this->set(compact('params', 'memo'));
     }
     
     
@@ -50,14 +55,13 @@ class MemosController extends AppController
     {
         $session = $this->getRequest()->getSession();
         $sessionParams = $session->read();
-        dd($sessionParams);
+        // dd($sessionParams);
         $this->set('memos', $sessionParams);
 
         $count = $this->request->getQuery('count');
 
         $params['user_id'] = $id;
-        // $this->Flash->error('指定した商品は存在しないか、削除されているなどの理由で編集できない商品です。');
-        
+        // dd($this->request->getData());
         if ($this->request->is('post')) {
             for ($i = 1; $i <= 5; $i++) {//適当に５にしてある
                 if( !empty($sessionParams['memo'.$i]) ){
@@ -86,6 +90,40 @@ class MemosController extends AppController
 
         $this->set(compact('params', 'count'));
     }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Memo id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $params['count'] = $this->request->getQuery('count');
+        $params['title'] = 'メモ'.$params['count'].'ページ';
+
+        $session = $this->getRequest()->getSession();
+        $sessionParams = $session->read();
+        // dd($sessionParams);
+        $this->set('memos', $sessionParams);
+        
+        if ($this->request->getData('message')) { //登録時の処理
+            
+            $session = $this->getRequest()->getSession();
+            $session->write('memo'.$params['count'], $this->request->getData('message'));
+            
+            ++$params['count'];
+            $params['title'] = 'メモ'.$params['count'].'ページ';
+            
+            if( $params['count'] >= 4 ){
+                return $this->redirect(['action' => 'show', $params['user_id'], '?' => ['count' => $params['count']]]);
+            }
+        }
+        
+        $this->set(compact('params'));
+    }
+
 
     /**
      * View method
@@ -125,30 +163,6 @@ class MemosController extends AppController
         $this->set(compact('memo', 'users'));
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Memo id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $memo = $this->Memos->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $memo = $this->Memos->patchEntity($memo, $this->request->getData());
-            if ($this->Memos->save($memo)) {
-                $this->Flash->success(__('The memo has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The memo could not be saved. Please, try again.'));
-        }
-        $users = $this->Memos->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('memo', 'users'));
-    }
 
     /**
      * Delete method
