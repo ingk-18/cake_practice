@@ -6,19 +6,22 @@
 ?>
 <div class="memos index content">
     <?= $this->Html->link(__('New Memo'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= $params['title'] ?></h3>
+    <h3><?= '質問'.$params['count'] ?></h3>
     <div class="table-responsive">
         <table>
             <tbody>
-                <?= $this->Form->create($memo, [
+                <?= $this->Form->create( null, [
                     'type' => 'post',
                     'url' => ['action' => 'index', $params['user_id'] ?? null, 
                     '?' => ['count' => $params['count'] ?? 1],
-                    'valueSources' => ['query', 'context']]
-                ]); ?>
+                ]]); ?>
 
-                <?= $this->Form->textarea('memo', ['rows' => '5', 'cols' => '5']); ?>
-                <?= $this->Form->button('フォームの送信', ['type' => 'submit']); ?>
+                <?= $this->Form->textarea('message', ['rows' => '5', 'cols' => '5', 'value' => $memo ?? '']); ?>
+                <?php if( isset($memo) ){ ?>
+                    <?= $this->Form->button('フォームの修正', ['type' => 'submit', 'name' => 'send', 'value' => '2']); ?>
+                <?php }else{ ?>
+                    <?= $this->Form->button('フォームの送信', ['type' => 'submit', 'name' => 'send', 'value' => '1']); ?>
+                <?php } ?>
                 <?= $this->Form->end() ?>
             </tbody>
         </table>

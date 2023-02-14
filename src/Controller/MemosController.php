@@ -13,34 +13,32 @@ class MemosController extends AppController
 {
     /**
      * Index method
-     * メモ4ページ（count = 4）になるとshowへ行く
+     * 初期登録または編集で利用
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index($id = null)
     {
         $params['user_id'] = $id;
         $params['count'] = $this->request->getQuery('count') ?? 1;
-        $params['title'] = 'メモ'.$params['count'].'ページ';
+        $session = $this->getRequest()->getSession();
 
         //editの場合
-        $session = $this->getRequest()->getSession();
-        $memo = $session->read('memo'.$params['count']);
-        // dd($memo);
-        
-        if ($this->request->getData('memo')) {//登録時の処理
-            
-            $session = $this->getRequest()->getSession();
+        if( $this->request->getData('edit') ){
+            $this->set('memo', $session->read('memo'.$params['count']));
+        }
+
+        //登録時の処理
+        if ($this->request->getData('message')) {
             $session->write('memo'.$params['count'], $this->request->getData('message'));
-            
             ++$params['count'];
-            $params['title'] = 'メモ'.$params['count'].'ページ';
             
-            if( $params['count'] >= 4 ){
+            //質問の上限値までくるかmemoを修正した場合
+            if( $params['count'] >= 4 or $this->request->getData('send') == 2){
                 return $this->redirect(['action' => 'show', $params['user_id'], '?' => ['count' => $params['count']]]);
             }
         }
         
-        $this->set(compact('params', 'memo'));
+        $this->set(compact('params'));
     }
     
     
@@ -55,19 +53,14 @@ class MemosController extends AppController
     {
         $session = $this->getRequest()->getSession();
         $sessionParams = $session->read();
-        // dd($sessionParams);
         $this->set('memos', $sessionParams);
-
-        $count = $this->request->getQuery('count');
-
-        $params['user_id'] = $id;
-        // dd($this->request->getData());
+        
         if ($this->request->is('post')) {
             for ($i = 1; $i <= 5; $i++) {//適当に５にしてある
                 if( !empty($sessionParams['memo'.$i]) ){
                     $registParams['message'] = $sessionParams['memo'.$i];
                     $registParams['memo_id'] = $i;
-                    $registParams['user_id'] = $id;
+                    $registParams['user_id'] = $sessionParams['Auth']['User']['id'];
                     
                     $tblMemos = $this->Memos;
                     $entMemo =  $tblMemos->newEntity($registParams, ['validate' => false]);
@@ -75,55 +68,13 @@ class MemosController extends AppController
                     try{
                         $tblMemos->save($entMemo,false);
                         $session->delete('memo'.$i);
-                        
                     }catch( \Exception $e ){
-                        // $this->Flash->error( \App\Lib\Messages::get(3) );
-                        
                         debug($entMemo->getErrors());
-                        
                     }
-                    // dd('おわり');
-                    // return $this->redirect(['controller' => 'Memos', 'action' => 'show2', $params['user_id']]);
                 }
             }
         }
-
-        $this->set(compact('params', 'count'));
     }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Memo id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $params['count'] = $this->request->getQuery('count');
-        $params['title'] = 'メモ'.$params['count'].'ページ';
-
-        $session = $this->getRequest()->getSession();
-        $sessionParams = $session->read();
-        // dd($sessionParams);
-        $this->set('memos', $sessionParams);
-        
-        if ($this->request->getData('message')) { //登録時の処理
-            
-            $session = $this->getRequest()->getSession();
-            $session->write('memo'.$params['count'], $this->request->getData('message'));
-            
-            ++$params['count'];
-            $params['title'] = 'メモ'.$params['count'].'ページ';
-            
-            if( $params['count'] >= 4 ){
-                return $this->redirect(['action' => 'show', $params['user_id'], '?' => ['count' => $params['count']]]);
-            }
-        }
-        
-        $this->set(compact('params'));
-    }
-
 
     /**
      * View method
