@@ -14,6 +14,7 @@ class MemosController extends AppController
     /**
      * Index method
      * 初期登録または編集で利用
+     * @param $params['count'] 1ページ目から順に1,2,3とカウントアップ。URLのカウントは-1となっている。
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index($id = null)
@@ -37,7 +38,6 @@ class MemosController extends AppController
                 return $this->redirect(['action' => 'show', $params['user_id'], '?' => ['count' => $params['count']]]);
             }
         }
-        
         $this->set(compact('params'));
     }
     
