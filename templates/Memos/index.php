@@ -5,8 +5,7 @@
  */
 ?>
 <div class="memos index content">
-    <?= $this->Html->link(__('New Memo'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= '質問'.$params['count'] ?></h3>
+    <h3><?= 'TODO'.' '.$params['count'] ?></h3>
     <div class="table-responsive">
         <table>
             <tbody>
@@ -18,9 +17,9 @@
 
                 <?= $this->Form->textarea('message', ['rows' => '5', 'cols' => '5', 'value' => $memo ?? '']); ?>
                 <?php if( isset($memo) ){ ?>
-                    <?= $this->Form->button('フォームの修正', ['type' => 'submit', 'name' => 'send', 'value' => '2']); ?>
+                    <?= $this->Form->button('フォームの修正', ['type' => 'submit', 'name' => 'send', 'value' => '2', 'class' => 'index-edit-button']); ?>
                 <?php }else{ ?>
-                    <?= $this->Form->button('フォームの送信', ['type' => 'submit', 'name' => 'send', 'value' => '1']); ?>
+                    <?= $this->Form->button('フォームの送信', ['type' => 'submit', 'name' => 'send', 'value' => '1', 'class' => 'index-regist-button']); ?>
                 <?php } ?>
                 <?= $this->Form->end() ?>
             </tbody>

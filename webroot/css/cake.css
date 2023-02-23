@@ -200,8 +200,8 @@ th {
 
 /* ココから追加 */
 footer {
-    height: 350px;
-    background-color: rgb(225, 240, 247);
+    height: 90px;
+    background-color: rgb(238, 237, 237);
 }
 
 .footer-h3{
@@ -210,6 +210,42 @@ footer {
     padding: 20px;
 }
 
+.show-edit-button{
+    margin: 5px 0px;
+    background-color: #606c76;
+    border: none;
+}
+
+.show-memo{
+    margin: 5px 0px;
+}
+
+.show-regist-button {
+    width: 250px;
+    display: block;
+    Margin: 0 auto;
+    background-color: #104bd5;
+    border: none;
+}
+
+.index-edit-button, .index-regist-button {
+    display: block;
+    margin: 5px 0px;
+    background-color: #104bd5;
+    border: none;
+}
+
+.container{
+    min-height: 500px;
+}
+
+/* html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+} */
 @media screen and (max-width: 640px) {
     .top-nav {
         margin: 0 auto;

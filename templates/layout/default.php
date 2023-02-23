@@ -38,12 +38,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <body>
     <nav class="top-nav">
         <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+            <a href="<?= $this->Url->build(['controller' =>'memos' ,'action' => 'index']) ?>"><span>Simple</span>TODO</a>
         </div>
-        <div class="top-nav-links">
+        <!-- <div class="top-nav-links">
             <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
             <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-        </div>
+        </div> -->
     </nav>
     <main class="main">
         <div class="container">
@@ -52,7 +52,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </main>
     <footer>
-        <h3 class='footer-h3'>最後から考えるアプリ</h1>
+        <h3 class='footer-h3'>Simple Todo</h1>
     </footer>
 </body>
 </html>
